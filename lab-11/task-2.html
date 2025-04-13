@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Event Listeners</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .stopwatch, .age-calculator, .char-counter {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .stopwatch button, .age-calculator input, .char-counter textarea {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- (i) Stopwatch -->
+    <div class="stopwatch">
+        <h3>Stopwatch</h3>
+        <p id="time">00:00:00</p>
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+        <button id="reset">Reset</button>
+    </div>
+
+    <!-- (ii) Age Calculator -->
+    <div class="age-calculator">
+        <h3>Age Calculator</h3>
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob">
+        <p id="age">Age: </p>
+    </div>
+
+    <!-- (iii) Character Counter -->
+    <div class="char-counter">
+        <h3>Character Counter</h3>
+        <textarea id="textarea" rows="4" cols="30" maxlength="200"></textarea>
+        <p id="charCount">Characters: 0 / 200</p>
+    </div>
+
+    <script>
+        // (i) Stopwatch
+        let timer;
+        let seconds = 0, minutes = 0, hours = 0;
+        let running = false;
+
+        function updateTime() {
+            seconds++;
+            if (seconds === 60) {
+                seconds = 0;
+                minutes++;
+                if (minutes === 60) {
+                    minutes = 0;
+                    hours++;
+                }
+            }
+            document.getElementById("time").innerText =
+                (hours < 10 ? "0" : "") + hours + ":" +
+                (minutes < 10 ? "0" : "") + minutes + ":" +
+                (seconds < 10 ? "0" : "") + seconds;
+        }
+
+        document.getElementById("start").addEventListener("click", function () {
+            if (!running) {
+                timer = setInterval(updateTime, 1000);
+                running = true;
+            }
+        });
+
+        document.getElementById("stop").addEventListener("click", function () {
+            clearInterval(timer);
+            running = false;
+        });
+
+        document.getElementById("reset").addEventListener("click", function () {
+            clearInterval(timer);
+            running = false;
+            seconds = 0;
+            minutes = 0;
+            hours = 0;
+            document.getElementById("time").innerText = "00:00:00";
+        });
+
+        // (ii) Age Calculator
+        document.getElementById("dob").addEventListener("mouseover", function () {
+            let dob = new Date(this.value);
+            if (!isNaN(dob.getTime())) {
+                let today = new Date();
+                let age = today.getFullYear() - dob.getFullYear();
+                let monthDiff = today.getMonth() - dob.getMonth();
+                let dayDiff = today.getDate() - dob.getDate();
+
+                if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+                    age--;
+                }
+
+                document.getElementById("age").innerText = "Age: " + age;
+            } else {
+                document.getElementById("age").innerText = "Age: Invalid Date";
+            }
+        });
+
+        // (iii) Character Counter
+        document.getElementById("textarea").addEventListener("input", function () {
+            let maxLength = 200;
+            let charCount = this.value.length;
+            document.getElementById("charCount").innerText = `Characters: ${charCount} / ${maxLength}`;
+        });
+
+    </script>
+
+</body>
+</html>

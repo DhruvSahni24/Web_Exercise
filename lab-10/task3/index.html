@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e5e5d3;
+            text-align: center;
+        }
+        .container {
+            width: 350px;
+            background-color: #788066;
+            padding: 20px;
+            margin: 50px auto;
+            border-radius: 10px;
+            color: white;
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+        .input-group {
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            font-size: 14px;
+        }
+        .input-group input {
+            width: 90%;
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+        .product {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .product img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+        .product span {
+            flex-grow: 1;
+            text-align: left;
+            margin-left: 10px;
+        }
+        .product input[type="number"] {
+            width: 50px;
+            text-align: center;
+            border-radius: 5px;
+            border: none;
+            padding: 5px;
+            display: none;
+        }
+        .btn {
+            background-color: #c4a77d;
+            color: white;
+            padding: 10px;
+            border: none;
+            width: 100%;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Grocery Order Form</h2>
+
+        <div class="input-group">
+            <label>Customer Name</label>
+            <input type="text" id="customerName">
+        </div>
+        <div class="input-group">
+            <label>Phone Number</label>
+            <input type="text" id="phoneNumber">
+        </div>
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" id="email">
+        </div>
+
+        <h3>Products</h3>
+
+        <div class="product">
+            <input type="checkbox" id="appleCheck" onclick="toggleInput('appleQty')">
+            <img src="apple.png" alt="Apple">
+            <span>Apple - $10/kg</span>
+            <input type="number" id="appleQty" min="0" placeholder="kg">
+        </div>
+
+        <div class="product">
+            <input type="checkbox" id="bananaCheck" onclick="toggleInput('bananaQty')">
+            <img src="banana.png" alt="Banana">
+            <span>Banana - $5/kg</span>
+            <input type="number" id="bananaQty" min="0" placeholder="kg">
+        </div>
+
+        <div class="product">
+            <input type="checkbox" id="avocadoCheck" onclick="toggleInput('avocadoQty')">
+            <img src="avocado.png" alt="Avocado">
+            <span>Avocado - $7/kg</span>
+            <input type="number" id="avocadoQty" min="0" placeholder="kg">
+        </div>
+
+        <button class="btn" onclick="submitOrder()">SUBMIT</button>
+    </div>
+
+    <script>
+        function toggleInput(inputId) {
+            let inputField = document.getElementById(inputId);
+            let checkbox = document.getElementById(inputId.replace("Qty", "Check"));
+        
+            if (checkbox.checked) {
+                inputField.style.display = "inline-block"; // Show when checked
+            } else {
+                inputField.style.display = "none"; // Hide when unchecked
+                inputField.value = ""; // Reset the value when unchecked
+            }
+        }
+        
+        function submitOrder() {
+            const customerName = document.getElementById("customerName").value;
+            const phoneNumber = document.getElementById("phoneNumber").value;
+            const email = document.getElementById("email").value;
+
+            const orderData = {
+                customerName,
+                phoneNumber,
+                email,
+                appleQty: document.getElementById("appleCheck").checked ? document.getElementById("appleQty").value || 0 : 0,
+                bananaQty: document.getElementById("bananaCheck").checked ? document.getElementById("bananaQty").value || 0 : 0,
+                avocadoQty: document.getElementById("avocadoCheck").checked ? document.getElementById("avocadoQty").value || 0 : 0
+            };
+
+            localStorage.setItem("order", JSON.stringify(orderData));
+
+            window.location.href = "receipt.html";
+        }
+    </script>
+
+</body>
+</html>

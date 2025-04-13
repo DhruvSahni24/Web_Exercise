@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Confirmation</title>
+    <script>
+        function checkStudentStatus() {
+            let regNumber = prompt("Enter your registration number:");
+
+            if (!regNumber) {
+                alert("Registration number cannot be empty.");
+                return;
+            }
+
+            let isStudent = confirm("Are you a student?");
+            
+            if (isStudent) {
+                alert(`Thank you! Your registration number is: ${regNumber}`);
+            } else {
+                alert("You must be a student to proceed.");
+            }
+        }
+    </script>
+</head>
+<body onload="checkStudentStatus()">
+    <h2>Student Confirmation</h2>
+    <p>Check the prompt window to enter your registration number.</p>
+</body>
+</html>

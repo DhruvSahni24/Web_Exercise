@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Airline Seat Reservation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Airline Seat Reservation System</h2>
+    <button onclick="assignSeat(1)">First Class (1-5)</button>
+    <button onclick="assignSeat(2)">Economy (6-10)</button>
+    <p id="output"></p>
+    
+    <script>
+        const seats = new Array(10).fill(0);
+
+        function assignSeat(choice) {
+            let seatNumber = -1;
+            if (choice === 1) {
+                seatNumber = seats.findIndex((seat, index) => index < 5 && seat === 0);
+                if (seatNumber === -1) {
+                    if (confirm("First-class section is full. Would you like a seat in the economy section?")) {
+                        assignSeat(2);
+                    } else {
+                        alert("Next flight leaves in 3 hours.");
+                    }
+                    return;
+                }
+            } else if (choice === 2) {
+                seatNumber = seats.findIndex((seat, index) => index >= 5 && seat === 0);
+                if (seatNumber === -1) {
+                    if (confirm("Economy section is full. Would you like a seat in the first-class section?")) {
+                        assignSeat(1);
+                    } else {
+                        alert("Next flight leaves in 3 hours.");
+                    }
+                    return;
+                }
+            }
+
+            seats[seatNumber] = 1;
+            let passengerName = prompt("Enter your name:");
+            document.getElementById("output").innerHTML += `<p>Boarding Pass: ${passengerName}, Seat: ${seatNumber + 1}, Class: ${choice === 1 ? 'First Class' : 'Economy'}</p>`;
+        }
+    </script>
+</body>
+</html>

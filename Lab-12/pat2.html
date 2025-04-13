@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Login Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        form { display: inline-block; text-align: left; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        label, input { display: block; margin-bottom: 10px; }
+        #password { background: #f0f0f0; }
+        .hidden { display: none; }
+        .greeting { font-size: 20px; font-weight: bold; color: green; }
+    </style>
+</head>
+<body>
+    <h2>Customer Login</h2>
+    <form id="loginForm">
+        <label for="customerId">Customer ID:</label>
+        <input type="text" id="customerId" pattern="[A-Z0-9#@!]{8}" required>
+        
+        <label for="customerName">Customer Name:</label>
+        <input type="text" id="customerName" maxlength="25" required>
+        
+        <label for="password">Generated Password:</label>
+        <input type="text" id="password" readonly>
+        
+        <div id="buttons" class="hidden">
+            <button type="submit">Submit</button>
+            <button type="reset">Cancel</button>
+        </div>
+    </form>
+    
+    <p id="greetingMessage" class="greeting hidden"></p>
+    
+    <script>
+        document.getElementById('customerId').addEventListener('input', function () {
+            validateFields();
+        });
+
+        document.getElementById('customerName').addEventListener('input', function () {
+            validateFields();
+            if (this.value.length > 0) {
+                generatePassword(this.value);
+            }
+        });
+
+        function validateFields() {
+            let customerId = document.getElementById('customerId').value;
+            let customerName = document.getElementById('customerName').value;
+            let validCustomerId = /^[A-Z0-9#@!]{8}$/.test(customerId);
+            let validCustomerName = customerName.length > 0;
+            if (validCustomerId && validCustomerName) {
+                document.getElementById('buttons').classList.remove('hidden');
+            } else {
+                document.getElementById('buttons').classList.add('hidden');
+            }
+        }
+
+        function generatePassword(name) {
+            let lastLetter = name.slice(-1).toUpperCase();
+            let numAlphabets = name.replace(/[^a-zA-Z]/g, "").length.toString().padStart(2, '0');
+            let hashSymbol = '#';
+            let currentDate = new Date().toISOString().split('T')[0].replace(/-/g, '');
+            let firstTwo = name.slice(0, 2).toLowerCase();
+            let password = `${lastLetter}${numAlphabets}${hashSymbol}${currentDate}${firstTwo}`;
+            document.getElementById('password').value = password;
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            let name = document.getElementById('customerName').value;
+            showGreeting(name);
+        });
+
+        function showGreeting(name) {
+            let hours = new Date().getHours();
+            let greeting = hours < 12 ? "Good Morning!" : hours < 16 ? "Good Noon!" : "Good Evening!";
+            document.getElementById('greetingMessage').textContent = `${greeting} ${name.toUpperCase()}`;
+            document.getElementById('greetingMessage').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>image stack</title>
+    <style>
+        body {text-align: center; padding: 20px; }
+        .container { position: relative; width: 300px; height: 300px; margin: auto; }
+        .image-box { position: absolute; width: 100%; height: 100%; transition: transform 0.3s, z-index 0.3s; }
+        .image-box img { width: 100%; height: 100%; border-radius: 5px; }
+        .image-box:hover { transform: scale(1.2); z-index: 10; }
+        .details { position: absolute; top: 320px; left: 50%; transform: translateX(-50%); font-size: 16px; font-weight: bold; display: none; }
+    </style>
+</head>
+<body>
+    <h2>hover over an image</h2>
+    <div class="container" id="image-container"></div>
+    <p id="details" class="details"></p>
+    <script>
+        let images = [
+            { src: "https://media.istockphoto.com/id/1388420740/photo/net-zero-and-carbon-neutral-concepts-net-zero-emissions-goals-a-climate-neutral-long-term.jpg?s=612x612&w=0&k=20&c=3ZsKkJHs8FnAk5dXdCOjd85DyKu3RissYxk161yFgBM=", text: "image 1 description" },
+            { src: "https://media.istockphoto.com/id/1427517220/photo/carbon-neutral-and-net-zero-concept-natural-environment-a-climate-neutral-long-term-strategy.jpg?s=612x612&w=0&k=20&c=H091tXnWfRST4Ai_B7LgnWhaT9v5LXxAB3IFglj7nLQ=", text: "image 2 description" },
+            { src: "https://media.istockphoto.com/id/1401770465/photo/cost-reduction-concept.jpg?s=612x612&w=0&k=20&c=48S3i-Jcz2kbeiFnqhohYfgdSSGhwb2ej69cdzC33WM=", text: "image 3 description" },
+            { src: "https://media.istockphoto.com/id/1217833715/photo/leadership-vision-manage-business-to-recover-due-to-coronavirus-economic-depression-crisis.jpg?s=612x612&w=0&k=20&c=C7MtPPxJcwsT9ht8Zyb3YsuajG-TpEKznFE8thj6y8o=", text: "image 4 description" },
+            { src: "https://media.istockphoto.com/id/1174367058/photo/risk-management-and-assessment-for-business.jpg?s=612x612&w=0&k=20&c=ALgvqHVsA-qg7APPaSdDu4TAZ_FQ0aw6PSAtTtgiEgo=", text: "image 5 description" },
+            { src: "https://media.istockphoto.com/id/1392404096/vector/stock-market-crash-graph.jpg?s=612x612&w=0&k=20&c=21ijjuCWjm-VsV56tlplFBHzpxIhRXc9wu8WWscES1c=", text: "image 6 description" },
+            { src: "https://media.istockphoto.com/id/1473190581/photo/percent-down-arrow.jpg?s=612x612&w=0&k=20&c=jSglur3CEqWeupv7ruiac9a-wSQTnDi6BjYV41KmznE=", text: "image 7 description" },
+            { src: "https://media.istockphoto.com/id/1300638740/vector/line-increase-and-decrease-icons.jpg?s=612x612&w=0&k=20&c=b6sDIM8byIuiRwAhfarEyWlZBt9WI6sI0MDFc-JKGQw=", text: "image 8 description" },
+            { src: "https://media.istockphoto.com/id/1368415587/vector/dollar-arrow-isolated-icon-in-line-style-rising-and-falling-currency-vector-business-concept.jpg?s=612x612&w=0&k=20&c=10w9PS9mARo1YSGbuF8p7WOIFhXs0RD3rmBZPqrtIm0=", text: "image 9 description" },
+            { src: "https://media.istockphoto.com/id/1459251107/photo/percentage-icons-and-up-and-down-arrow-icons-with-graph-indicators-on-interface-icons-concept.jpg?s=612x612&w=0&k=20&c=zWsqm9tgKTYzYPW8OJXGAxRovxcTMag8eGMwHD2kros=", text: "image 10 description" }
+        ];
+        
+        let container = document.getElementById("image-container");
+        let details = document.getElementById("details");
+        
+        images.forEach((img, index) => {
+            let div = document.createElement("div");
+            div.classList.add("image-box");
+            div.style.left = `${index * 20}px`;
+            div.style.top = `${index * 20}px`;
+            div.style.zIndex = index;
+            div.innerHTML = `<img src="${img.src}" alt="${img.text}">`;
+            div.addEventListener("mouseover", () => {
+                div.style.zIndex = 100;
+                details.textContent = img.text;
+                details.style.display = "block";
+            });
+            div.addEventListener("mouseleave", () => {
+                div.style.zIndex = index;
+                details.style.display = "none";
+            });
+            container.appendChild(div);
+        });
+    </script>
+</body>
+</html>

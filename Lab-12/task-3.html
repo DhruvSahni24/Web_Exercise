@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Charts with Plotly.js</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .chart {
+            width: 45%;
+            min-width: 400px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Dynamic Charts Using Plotly.js</h1>
+    
+    <div class="chart-container">
+        <div id="barChart" class="chart"></div>
+        <div id="lineChart" class="chart"></div>
+        <div id="pieChart" class="chart"></div>
+        <div id="donutChart" class="chart"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Sample Data
+            const categories = ["A", "B", "C", "D", "E"];
+            const values = [20, 35, 50, 30, 45];
+            const colors = ["#ff5733", "#33ff57", "#3357ff", "#ff33a6", "#f4a261"];
+
+            // 1️⃣ Bar Chart
+            Plotly.newPlot("barChart", [{
+                x: categories,
+                y: values,
+                type: "bar",
+                marker: { color: colors }
+            }], {
+                title: "Bar Chart Example",
+                xaxis: { title: "Categories" },
+                yaxis: { title: "Values" }
+            });
+
+            // 2️⃣ Line Chart
+            Plotly.newPlot("lineChart", [{
+                x: categories,
+                y: values,
+                type: "scatter",
+                mode: "lines+markers",
+                line: { shape: "linear", color: "#1f77b4" }
+            }], {
+                title: "Line Chart Example",
+                xaxis: { title: "Categories" },
+                yaxis: { title: "Values" }
+            });
+
+            // 3️⃣ Pie Chart
+            Plotly.newPlot("pieChart", [{
+                labels: categories,
+                values: values,
+                type: "pie",
+                marker: { colors: colors }
+            }], {
+                title: "Pie Chart Example"
+            });
+
+            // 4️⃣ Donut Chart (Pie Chart with Hole)
+            Plotly.newPlot("donutChart", [{
+                labels: categories,
+                values: values,
+                type: "pie",
+                hole: 0.4,
+                marker: { colors: colors }
+            }], {
+                title: "Donut Chart Example"
+            });
+        });
+    </script>
+
+</body>
+</html>

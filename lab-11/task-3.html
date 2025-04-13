@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Form Validation</title>
+    <script>
+        // (i) Set timer to display current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById("time").innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+
+        // (ii) Print form content using getElementsByName
+        function printFormContents() {
+            let gender = document.getElementsByName("gender");
+            let country = document.getElementsByName("country")[0];
+            let preferences = document.getElementsByName("preferences");
+
+            let selectedGender = "";
+            for (let i = 0; i < gender.length; i++) {
+                if (gender[i].checked) selectedGender = gender[i].value;
+            }
+
+            let selectedPreferences = [];
+            for (let i = 0; i < preferences.length; i++) {
+                if (preferences[i].checked) selectedPreferences.push(preferences[i].value);
+            }
+
+            alert(`Gender: ${selectedGender}\nCountry: ${country.value}\nPreferences: ${selectedPreferences.join(", ")}`);
+        }
+
+        // (iii) Form Validation
+        function validateForm() {
+            let name = document.getElementById("name");
+            let address = document.getElementById("address");
+            let zip = document.getElementById("zip");
+            let phone = document.getElementById("phone");
+            let email = document.getElementById("email");
+            let password = document.getElementById("password");
+            let verifyPassword = document.getElementById("verifyPassword");
+            let pan = document.getElementById("pan");
+
+            // (a) Mandatory fields
+            let fields = [name, zip, phone, email, password, verifyPassword, pan];
+            for (let field of fields) {
+                if (field.value.trim() === "") {
+                    alert(`${field.name} is required`);
+                    field.focus();
+                    return false;
+                }
+            }
+
+            // (b) Name length validation
+            if (name.value.length > 15) {
+                alert("Name should not exceed 15 characters.");
+                name.focus();
+                return false;
+            }
+
+            // (c) Address validation
+            if (address.value.trim() === "") {
+                alert("Address is required.");
+                address.focus();
+                return false;
+            }
+
+            // (d) Zip Code Validation
+            if (!/^\d{6}$/.test(zip.value)) {
+                alert("Zip Code should be 6-digit numeric.");
+                zip.focus();
+                return false;
+            }
+
+            // (e) Phone number validation
+            if (!/^\d{10}$/.test(phone.value)) {
+                alert("Phone number must be 10 digits.");
+                phone.focus();
+                return false;
+            }
+
+            // (f) Email Validation
+            let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(email.value)) {
+                alert("Invalid email format.");
+                email.focus();
+                return false;
+            }
+
+            // (g) Password validation (8-15 chars, at least one number, one special character, and one letter)
+            let passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
+            if (!passwordPattern.test(password.value)) {
+                alert("Password must be 8-15 characters, include a number, a letter, and a special character.");
+                password.focus();
+                return false;
+            }
+            if (password.value !== verifyPassword.value) {
+                alert("Passwords do not match.");
+                verifyPassword.focus();
+                return false;
+            }
+
+            // (h) PAN Card Validation (10-digit alphanumeric format)
+            let panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+            if (!panPattern.test(pan.value)) {
+                alert("Invalid PAN Number. Format: ABCDE1234F.");
+                pan.focus();
+                return false;
+            }
+
+            alert("Form submitted successfully!");
+            return true;
+        }
+    </script>
+</head>
+<body onload="updateTime()">
+    <h2>Test JavaScript Form Validation</h2>
+    <div style="float: right; border: 1px solid black; padding: 5px;">
+        Time: <span id="time"></span>
+    </div>
+    <form onsubmit="return validateForm()">
+        <label>Name*: <input type="text" id="name" name="name"></label><br><br>
+        <label>Address*: <textarea id="address" name="address"></textarea></label><br><br>
+        <label>Zip Code*: <input type="text" id="zip" name="zip"></label><br><br>
+        <label>Country*: 
+            <select name="country">
+                <option value="">Please select...</option>
+                <option value="India">India</option>
+                <option value="USA">USA</option>
+            </select>
+        </label><br><br>
+        <label>Gender*: 
+            <input type="radio" name="gender" value="Male"> Male
+            <input type="radio" name="gender" value="Female"> Female
+        </label><br><br>
+        <label>Preferences*: 
+            <input type="checkbox" name="preferences" value="Red"> Red
+            <input type="checkbox" name="preferences" value="Green"> Green
+            <input type="checkbox" name="preferences" value="Blue"> Blue
+        </label><br><br>
+        <label>Phone*: <input type="text" id="phone" name="phone"></label><br><br>
+        <label>Email*: <input type="text" id="email" name="email"></label><br><br>
+        <label>Password (8-15 chars)*: <input type="password" id="password" name="password"></label><br><br>
+        <label>Verify Password*: <input type="password" id="verifyPassword" name="verifyPassword"></label><br><br>
+        <label>PAN No*: <input type="text" id="pan" name="pan"></label><br><br>
+        
+        <button type="submit">SEND</button>
+        <button type="reset">CLEAR</button>
+    </form>
+
+    <button onclick="printFormContents()">Print Form Contents</button>
+</body>
+</html>

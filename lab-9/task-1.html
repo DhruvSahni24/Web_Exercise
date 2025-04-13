@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Temperature Analysis</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>New York City Temperature Analysis</h2>
+    <table>
+        <tr>
+            <th>Temperature (°F)</th>
+            <th>Category</th>
+        </tr>
+        <tbody id="tempTable"></tbody>
+    </table>
+    <p id="summary"></p>
+
+    <script>
+        const temperatures = [55, 62, 68, 74, 59, 45, 41, 58, 60, 67, 65, 78, 82, 88, 91, 92, 90, 93, 87, 80, 78, 79, 72, 68, 61, 59, 55, 65];
+        let hotDays = 0, pleasantDays = 0, coldDays = 0;
+        const table = document.getElementById("tempTable");
+
+        temperatures.forEach(temp => {
+            let category;
+            if (temp >= 85) {
+                category = "HOT";
+                hotDays++;
+            } else if (temp >= 60) {
+                category = "PLEASANT";
+                pleasantDays++;
+            } else {
+                category = "COLD";
+                coldDays++;
+            }
+            
+            const row = `<tr><td>${temp}</td><td>${category}</td></tr>`;
+            table.innerHTML += row;
+        });
+
+        document.getElementById("summary").innerHTML = 
+            `Hot Days: ${hotDays} | Pleasant Days: ${pleasantDays} | Cold Days: ${coldDays}`;
+    </script>
+</body>
+</html>
